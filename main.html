@@ -32,6 +32,7 @@
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded">
+				<div id='map' style="display: none;"></div>
 				<p>
 					您好 <span id='account'></span>，您已成功登录。
 					<button type="button" id="btninit" class="mui-btn mui-btn-primary ">系统初始化</button>
@@ -50,6 +51,7 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/app.js"></script>
 		    <script src="conf.js"></script>
+		    
     <script type="text/javascript">
         var dojoConfig = {
             packages: [{
@@ -61,6 +63,8 @@
         document.write("<link rel='stylesheet' href='" + libpath + "/esri/css/esri.css' />");
         document.write("<script src='" + libpath + "/init.js'></scr" + "ipt>");
     </script>
+        <script src="jquery.min.js"></script>
+
 		<script>
 			require([
 						'lib/coordtrans', "esri/SpatialReference", "esri/layers/WebTiledLayer", 'lib/loadtiles',
@@ -95,25 +99,40 @@
 						parser, Extent,Polygon
 		) {
 			//arcgis部分
+			var areacode = '370102008015';
 			parser.parse();
             esriConfig.defaults.geometryService = new GeometryService(
             "https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
             esri.config.defaults.io.corsEnabledServers.push('http://124.133.27.90:6080');
             //抓图核心
+            var map = new Map("map",{basemap:'osm'});
+                       //依据区划码，过滤村级边界和建筑物图层
+                                   //图层初始化参数
+            function layerpars(DefinitionExpression) {
+                this.mode = FeatureLayer.MODE_SNAPSHOT;
+                this.outFields = ["*"];
+                this.showLabels = false;
+                this.minScale = 0;
+                this.maxScale = 0;
+                this.definitionExpression = DefinitionExpression;
+            }
+            var layerCunBJ = new FeatureLayer(fsurl + "3", new layerpars("AREA_CODE like '" + areacode +
+                "%'"));
+ 	map.addLayer(layerCunBJ);
 			function downtile(features) {
 				// 根据地图平台使用转换类
 				var TileLnglatTransformGaode = TileLnglatTransform.TileLnglatTransformGaode;
 				var sr = new SpatialReference(4326);
 				var graphics = [];
-				features.forEach(function(item){
-					console.log(item)
-					graphics.push(new Polygon(item.geometry));
-				})
-				console.log(graphics);
-				console.log(graphicsUtils);
-				var ext = graphicsUtils.graphicsExtent(graphics);
+//				features.forEach(function(item){
+//					console.log(item)
+//					graphics.push(new Polygon(item.geometry));
+//				});
+				console.log(layerCunBJ.graphics)
+				var ext = graphicsUtils.graphicsExtent(layerCunBJ.graphics);
+//				var ext = graphicsUtils.graphicsExtent(graphics);
 				// var ext = map.geographicExtent;
-//				var project = esriConfig.defaults.geometryService.project([ext], sr);
+				var project = esriConfig.defaults.geometryService.project([ext], sr);
 				var tilelvl = 17;
 
 				//根据经纬度获取瓦片坐标和瓦片左上角经纬度
@@ -136,7 +155,7 @@
 					};
 
 				}
-//				project.then(function(result) {
+				project.then(function(result) {
 
 					// console.log(result);
 					// console.log("project successful: ", result);
@@ -156,14 +175,14 @@
 										'wkid': 4326
 									}
 								},
-								'href': downsource[$('#down').val()].url.replace('{col}', tilex)
+								'href': downsource[0].url.replace('{col}', tilex)
 									.replace('{row}',
 										tiley).replace('{level}', tilelvl)
 							});
 							console.log(mi);
 						}
 					}
-//				}, function() {});
+				}, function() {});
 
 			}
 
