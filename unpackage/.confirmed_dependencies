@@ -1,0 +1,17 @@
+{
+	"main.html": {
+		"refer": [
+			"setting.html"
+		],
+		"resources": []
+	},
+	"login.html": {
+		"refer": [
+			"main.html",
+			"reg.html"
+		],
+		"resources": [
+			"images/qq.png"
+		]
+	}
+}

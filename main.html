@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.mui-content-padded button {
+				width: 100%;
+				margin-bottom: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<h1 class="mui-title">建筑物标绘系统移动端</h1>
+			<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
+			<a href="setting.html">设置</a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>
+					您好 <span id='account'></span>，您已成功登录。
+					<button type="button" id="btninit" class="mui-btn mui-btn-primary ">系统初始化</button>
+					<button type="button" class="mui-btn mui-btn-success ">建筑物标绘</button>
+					<button type="button" class="mui-btn mui-btn-warning ">数据汇总</button>
+					<button type="button" class="mui-btn mui-btn-danger">数据上报</button>
+					<button type="button" class="mui-btn mui-btn-royal ">退出</button>
+				</p>
+				<!--<button  class="mui-btn mui-btn-block mui-btn-primary">设置</button>-->
+				<!--
+				<button id='exit' class="mui-btn mui-btn-block mui-btn-green">关闭</button>
+                <button id='logout' class="mui-btn mui-btn-red mui-btn-block">注销登录</button>
+                -->
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		    <script src="conf.js"></script>
+    <script type="text/javascript">
+        var dojoConfig = {
+            packages: [{
+                "name": "lib",
+                "location": location.pathname.replace(/\/[^/]+$/, '/lib')
+            }]
+        };
+        document.write("<link rel='stylesheet' href='" + libpath + "/dijit/themes/claro/claro.css' />");
+        document.write("<link rel='stylesheet' href='" + libpath + "/esri/css/esri.css' />");
+        document.write("<script src='" + libpath + "/init.js'></scr" + "ipt>");
+    </script>
+		<script>
+			require([
+						'lib/coordtrans', "esri/SpatialReference", "esri/layers/WebTiledLayer", 'lib/loadtiles',
+						"esri/map", "esri/dijit/BasemapToggle", "esri/layers/MapImageLayer",
+						"dojo/dom", "esri/layers/LabelClass", "esri/symbols/TextSymbol",
+						"esri/dijit/Measurement", "esri/dijit/InfoWindow",
+						"esri/toolbars/draw", "esri/symbols/Font",
+						"esri/toolbars/edit", "esri/graphicsUtils",
+						"esri/graphic", "esri/Color", "esri/basemaps",
+						"esri/tasks/GeometryService",
+						"esri/layers/FeatureLayer",
+						"esri/renderers/UniqueValueRenderer",
+						"esri/symbols/PictureMarkerSymbol",
+						"esri/symbols/SimpleMarkerSymbol",
+						"esri/symbols/SimpleLineSymbol",
+						"esri/symbols/SimpleFillSymbol",
+						"dojo/_base/event", "esri/tasks/query", "esri/dijit/AttributeInspector", "dojo/dom-construct",
+						"dijit/form/Button", 'lib/loadtdt',
+						"dojo/parser", "esri/geometry/Extent","esri/geometry/Polygon",
+						"dojo/domReady!"
+					], function(
+						TileLnglatTransform, SpatialReference, WebTiledLayer, loadtiles,
+						Map, BasemapToggle, MapImageLayer,
+						dom, LabelClass, TextSymbol,
+						Measurement, InfoWindow, Draw, Font,
+						Edit, graphicsUtils,
+						Graphic, Color, esriBasemaps,
+						GeometryService,
+						FeatureLayer, UniqueValueRenderer, PictureMarkerSymbol,
+						SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, event, Query, AttributeInspector, domConstruct,
+						Button, loadtdt,
+						parser, Extent,Polygon
+		) {
+			//arcgis部分
+			parser.parse();
+            esriConfig.defaults.geometryService = new GeometryService(
+            "https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            esri.config.defaults.io.corsEnabledServers.push('http://124.133.27.90:6080');
+            //抓图核心
+			function downtile(features) {
+				// 根据地图平台使用转换类
+				var TileLnglatTransformGaode = TileLnglatTransform.TileLnglatTransformGaode;
+				var sr = new SpatialReference(4326);
+				var graphics = [];
+				features.forEach(function(item){
+					console.log(item)
+					graphics.push(new Polygon(item.geometry));
+				})
+				console.log(graphics);
+				console.log(graphicsUtils);
+				var ext = graphicsUtils.graphicsExtent(graphics);
+				// var ext = map.geographicExtent;
+//				var project = esriConfig.defaults.geometryService.project([ext], sr);
+				var tilelvl = 17;
+
+				//根据经纬度获取瓦片坐标和瓦片左上角经纬度
+				function coordproc(x, y) {
+					var tilexycoord = TileLnglatTransformGaode.lnglatToTile(x, y, tilelvl);
+					var tilellcoord = TileLnglatTransformGaode.pixelToLnglat(0, 0, tilexycoord.tileX,
+						tilexycoord.tileY, tilelvl);
+					return {
+						tilexycoord: TileLnglatTransformGaode.lnglatToTile(x, y, tilelvl),
+						tilellcoord: TileLnglatTransformGaode.pixelToLnglat(0, 0, tilexycoord.tileX,
+							tilexycoord.tileY, tilelvl)
+					}
+
+				}
+				//获取瓦片左上角、右下角经纬度坐标
+				function getcorner(x, y) {
+					return {
+						lt: TileLnglatTransformGaode.pixelToLnglat(-1, -1, x, y, tilelvl),
+						rb: TileLnglatTransformGaode.pixelToLnglat(256, 256, x, y, tilelvl)
+					};
+
+				}
+//				project.then(function(result) {
+
+					// console.log(result);
+					// console.log("project successful: ", result);
+					var arealt = coordproc(result[0].xmin, result[0].ymax);
+					var arearb = coordproc(result[0].xmax, result[0].ymin);
+					for(tiley = arealt.tilexycoord.tileY; tiley <= arearb.tilexycoord.tileY; tiley++) {
+						for(tilex = arealt.tilexycoord.tileX; tilex <= arearb.tilexycoord.tileX; tilex++) {
+							var corner = getcorner(tilex, tiley);
+							// console.log(corner)
+							var mi = new esri.layers.MapImage({
+								'extent': {
+									'xmin': corner.lt.lng,
+									'ymin': corner.rb.lat,
+									'xmax': corner.rb.lng,
+									'ymax': corner.lt.lat,
+									'spatialReference': {
+										'wkid': 4326
+									}
+								},
+								'href': downsource[$('#down').val()].url.replace('{col}', tilex)
+									.replace('{row}',
+										tiley).replace('{level}', tilelvl)
+							});
+							console.log(mi);
+						}
+					}
+//				}, function() {});
+
+			}
+
+			//mui部分
+			(function($, doc) {		
+				$.init();
+				var settings = app.getSettings();
+				var account = doc.getElementById('account');
+				//
+				window.addEventListener('show', function() {
+					var state = app.getState();
+					account.innerText = state.account;
+				}, false);
+					//初始化
+					var btninit = doc.getElementById('btninit');
+					//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+					btninit.addEventListener('tap', function(event) {
+						//请求边界数据
+//						$.ajax('http://124.133.27.90:6080/arcgis/rest/services/sdbj/FeatureServer/3/query', {
+						$.ajax('http://124.133.27.90:6080/arcgis/rest/services/sdbj/FeatureServer/3/query?where=AREA_CODE+like+%27370102008015%25%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=&gdbVersion=&returnDistinctValues=false&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&multipatchOption=&resultOffset=&resultRecordCount=&f=pjson',{
+							data:{
+//								where:'AREA_CODE+like+\'370102008015%\'',
+//								geometryType=esriGeometryEnvelope,
+//								
+//								outFields:'*',
+//								returnGeometry:true,
+//								f:'pjson'
+							},
+							dataType: 'json',
+							crossDomain:true,
+							headers:{'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}	,
+							success: function(result) {
+								//本地存储
+								localStorage.setItem('areabj_cun', JSON.stringify(result));
+								//请求图片
+								downtile(result.features);
+							}
+						})
+					});
+				$.plusReady(function() {
+					var settingPage = $.preload({
+						"id": 'setting',
+						"url": 'setting.html'
+					});
+	
+					//设置
+					var settingButton = doc.getElementById('setting');
+					//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+					settingButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'setting',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					//--
+					$.oldBack = mui.back;
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+				});
+			}(mui, document));
+
+
+		});
+		</script>
+	</body>
+
+</html>
