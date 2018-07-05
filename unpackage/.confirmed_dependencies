@@ -28,5 +28,23 @@
       "main.html"
     ],
     "resources": []
+  },
+  "pad.html": {
+    "resources": [
+      "layui/layui.js",
+      "layui/lay/modules/table.js",
+      "main.html"
+    ],
+    "refer": [
+      "main.html"
+    ]
+  },
+  "setting.html": {
+    "resources": [
+      "libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+      "libs/easymob-webim-sdk/json2.js",
+      "libs/easymob-webim-sdk/jquery-1.11.1.js",
+      "libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+    ]
   }
 }

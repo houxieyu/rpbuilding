@@ -57,7 +57,7 @@ require([
 	var layerXianBJ = new FeatureLayer(fsurl + "1", new layerpars('1=2'));
 	var layerXiangBJ = new FeatureLayer(fsurl + "2", new layerpars('1=2'));
 	//依据区划码，过滤村级边界和建筑物图层
-	var layerCunBJ = new FeatureLayer(fsurl + "3", new layerpars("AREA_CODE like '" + areacode + "%' or AREA_CODE is null"));
+	var layerCunBJ = new FeatureLayer(fsurl + "3", new layerpars("AREA_CODE like '" + areacode + "%'"));
 	layerCunBJ.setShowLabels(true);
 	var buildfilter = "BuildCode like '" + areacode + "%' or BuildCode is null";
 	var layerBuilding = new FeatureLayer(fsurl + "4", new layerpars(buildfilter));
@@ -154,9 +154,10 @@ require([
 			"esri/graphicsUtils", "dojo/domReady!"
 		], function(graphicsUtils) {
 			if(layerBuilding.graphics.length > 0) {
-//				var myFeatureExtent = graphicsUtils.graphicsExtent(layerBuilding.graphics);
-				if(tileinfo)map.setExtent(tileinfo.ext);
-				console.log(tileinfo.ext)
+				var myFeatureExtent = graphicsUtils.graphicsExtent(layerBuilding.graphics);
+				map.setExtent(myFeatureExtent);
+//				if(tileinfo)map.setExtent(tileinfo.ext);
+//				console.log(tileinfo.ext)
 			}
 		});
 	}

@@ -163,7 +163,7 @@
 					"xxhdpi": ""
 				}
 			}
-		}
+		},"adid":"127398040207"
 	},
 	"dependencies": {
 		"pages": {
@@ -280,6 +280,15 @@
 				"refer": [
 					"main.html"
 				],
+				"priority": 0
+			},
+			"pad.html": {
+				"resources": [
+					"layui/layui.js",
+					"layui/lay/modules/table.js",
+					"main.html"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},
