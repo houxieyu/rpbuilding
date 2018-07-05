@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="icon" href="favicon.ico">
+    		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+    <title>普查区建筑物标绘PAD端</title>
+    <style>
+        html,
+        body,
+        #map {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #ui {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            z-index: 100;
+        }
+
+        #ui button i {
+            color: darkgreen
+        }
+
+        #BasemapToggle {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            z-index: 50;
+        }
+
+        #ui {
+            display: inline-block
+        }
+    </style>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.js"></script>
+    <!-- <link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/themes/calcite/dijit/calcite.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.18/esri/themes/calcite/esri/esri.css"> -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="conf.js"></script>
+    <script type="text/javascript">
+    				var dojoConfig = {
+				packages: [{
+					"name": "rplib",
+					"location": location.pathname.replace(/\/[^/]+$/, '/rplib')
+				}]
+			};
+        document.write("<link rel='stylesheet' href='" + libpath + "/dijit/themes/claro/claro.css' />");
+        document.write("<link rel='stylesheet' href='" + libpath + "/esri/css/esri.css' />");
+        document.write("<script src='" + libpath + "/init.js'></scr" + "ipt>");
+    </script>
+    <!-- <link href="bootstrap.min.css" rel="stylesheet"> -->
+    <script src="jquery.min.js"></script>
+
+</head>
+
+<body class="claro">
+    <div id="map">
+        <!-- <div id="titleInfo">
+            <span id="titletext">GIS3D可视化技术展示</span>
+        </div> -->
+
+        <div id="ui">
+
+            <!-- 建筑物绘制工具 -->
+            <div id='drawdtools'>
+                <button id="bt_freehand" data-type="FREEHAND_POLYGON">
+                    <i class="fa fa-pencil fa-lg"></i> 自由绘制</button>
+                <button id="bt_rectangle" data-type="RECTANGLE">
+                    <i class="fa fa-square fa-lg"></i> 矩形</button>
+                <button id="bt_triangle" data-type="TRIANGLE">
+                    <i class="fa fa-play fa-lg"></i> 三角形</button>
+                <button id="bt_circle" data-type="CIRCLE">
+                    <i class="fa fa-circle fa-lg"></i> 圆形</button>
+                <!-- <button id="bt_ellipse" data-type="ELLIPSE">
+                    <i class="fa fa-circle fa-lg"></i> 椭圆</button> -->
+                <!--<button id="btpiao">开启飘窗</button>-->
+            </div>
+            <div id='edittools'>
+                <button id="bt_edit" data-tool="edit" data-cursor="hand">
+                    <i class="fa fa-edit fa-lg"></i> 编辑节点</button>
+                    <button id="bt_scale" data-tool="scale" data-cursor="hand">
+                            <i class="fa fa-object-ungroup fa-lg"></i> 变换</button>
+                        <button id="bt_attr" data-tool="attr" data-cursor="help">
+                    <i class="fa fa-table fa-lg"></i>属性</button>
+                <button id="bt_label" data-cursor="help">
+                    <i class="fa fa-bookmark fa-lg"></i> 显示标注</button>
+                <button id="bt_caiji" data-cursor="help">
+                    <i class="fa fa-table fa-lg"></i> 采集住户</button>
+            </div>
+        </div>
+        <div id='BasemapToggle'></div>
+        <div id='huedit' style="display: none">
+            <style>
+                .layui-form-label {
+                    width: 130px;
+                }
+
+                .inlineinput {
+                    width: 80px !important;
+                }
+
+                .layui-inline {
+                    margin-right: 0px !important;
+                }
+
+                .layui-form-label {
+                    padding-left: 0px !important;
+                }
+            </style>
+            <form id="huform" class="layui-form" lay-filter="huform" style="padding-left: 10px;">
+                <div class="layui-inline">
+                    <label class="layui-form-label">建筑物编码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="bdcode" readonly autocomplete="off" class="layui-input">
+                        <input type="hidden" name="id" readonly autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">H2.户别</label>
+                    <!-- <div class="layui-input-block"> -->
+                    <input type="radio" name="H2" value="1" checked title="1.家庭户">
+                    <input type="radio" name="H2" value="2" title="2.集体户">
+                    <!-- </div> -->
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H1.户编号</label>
+                        <div class="inlineinput layui-input-inline ">
+                            <input type="text" name="H1" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">房屋号</label>
+                        <div class="inlineinput layui-input-inline ">
+                            <input type="text" name="fangwuhao" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H3.应登记人数_居住</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H3_1" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H3.应登记人数_未住</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H3_2" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H4.出生人口-男</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H4_1" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H4.出生人口-女</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H4_2" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H4.死亡人口-男</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H4_3" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H4.死亡人口-女</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H4_4" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H5.住房建筑面积</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H5" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">H6.住房间数</label>
+                        <div class="layui-input-inline inlineinput">
+                            <input type="number" name="H6" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div id='renyuanedit' style="display: none">
+            <style>
+                .layui-form-label {
+                    width: 130px;
+                }
+
+                .rinlineinput {
+                    width: 130px !important;
+                }
+
+                .layui-inline {
+                    margin-right: 0px !important;
+                }
+
+                .layui-form-label {
+                    padding-left: 0px !important;
+                }
+            </style>
+            <form id="renyuanform" class="layui-form" lay-filter="renyuanform" style="padding-left: 10px;padding-top: 10px;">
+                <input type="hidden" name="id" readonly autocomplete="off" class="layui-input">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">户编码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="huid" readonly autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width:70px;">R0.人编码</label>
+                            <div class="layui-input-inline " style="width:100px">
+                                <input type="text" name="R0" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                </div>
+                <div class="layui-form-item">
+                                <label class="layui-form-label">身份证号码</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sfzh" autocomplete="off" class="layui-input" style="width:390px;">
+                                </div>
+        
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R1.姓名</label>
+                        <div class="rinlineinput layui-input-inline ">
+                            <input type="text" name="R1" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R2.与户主关系</label>
+                        <div class="rinlineinput layui-input-inline ">
+                                <select name="R2">
+                                        <option value="0">户主</option>
+                                        <option value="1">配偶</option>
+                                        <option value="2">子女</option>
+                                        <option value="3">父母</option>
+                                        <option value="4">岳父母或公婆</option>
+                                        <option value="5">祖父母</option>
+                                        <option value="6">媳婿</option>
+                                        <option value="7">孙子女</option>
+                                        <option value="8">兄弟姐妹</option>
+                                        <option value="9">其他</option>
+                                    </select>                        </div>
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R3.性别</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R3">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R4.出生年月</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <input type="date" name="R4" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R5.民族</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <input type="text" name="R5" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R6.调查时点居住地</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R6">
+                                <option value="1">本普查小区</option>
+                                <option value="2">本村居其他普查小区</option>
+                                <option value="3">本乡镇其他村居</option>
+                                <option value="4">本县市区其他乡镇</option>
+                                <option value="5">其他县市区</option>
+                                <option value="6">港澳台或国外</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R7.户口登记地</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R7">
+                                <option value="1">本村居</option>
+                                <option value="2">本乡镇其他村居</option>
+                                <option value="3">本县市区其他乡镇</option>
+                                <option value="4">其他县市区</option>
+                                <option value="5">户口待定</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R8.离开户口登记地时间</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R8">
+                                <option value="1">没有离开户口登记地</option>
+                                <option value="2">半年以下</option>
+                                <option value="3">半年至一年</option>
+                                <option value="4">一年至二年</option>
+                                <option value="5">二年至三年</option>
+                                <option value="6">三年至四年</option>
+                                <option value="7">四年至五年</option>
+                                <option value="8">五年至六年</option>
+                                <option value="9">六年以上</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R9.离开户口登记地原因</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R9">
+                                <option value="1">务工经商</option>
+                                <option value="2">工作调动</option>
+                                <option value="3">学习培训</option>
+                                <option value="4">随迁家属</option>
+                                <option value="5">投亲靠友</option>
+                                <option value="6">拆迁搬家</option>
+                                <option value="7">寄挂户口</option>
+                                <option value="8">婚姻嫁娶</option>
+                                <option value="9">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R10.户口性质</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R10">
+                                <option value="1">农业</option>
+                                <option value="2">非农业</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R11.是否识字</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R11">
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">R12.受教育程度</label>
+                        <div class="layui-input-inline rinlineinput">
+                            <select name="R12">
+                                <option value="1">未上过学</option>
+                                <option value="2">小学</option>
+                                <option value="3">初中</option>
+                                <option value="4">高中</option>
+                                <option value="5">大学专科</option>
+                                <option value="6">大学本科</option>
+                                <option value="7">研究生</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div id='zhuhulist' style="display: none" >
+            <div style="padding-left: 10px;padding-right: 10px;">
+            <div class="layui-inline" >
+                建筑物编码：
+                <span id="labeldbcode"></span>
+            </div>
+            <button id="addhu" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe654;</i>添加住户
+            </button>
+            <div>建筑物名称：<span id="labeldbname"></span></div>
+            <div>入住户数：<span id="labeldbrzhs"></span></div>
+            <table id="tablehu" lay-filter="tablehu"></table>
+        </div>
+        </div>
+        <div id='renyuanlist' style="display: none">
+            <div class="layui-inline" style="padding-left: 10px;">
+                户编码:
+                <span id="labelzhuhuid"></span>
+            </div>
+            <button id="addrenyuan" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe654;</i>添加人员
+            </button>
+            <table id="tablerenyuan" lay-filter="tablerenyuan"></table>
+        </div>
+        <!-- <div style="position:absolute; left:60px; top:10px; z-Index:999;">
+            <div id="titlePane1"  data-dojo-props="title:'测量工具', closable:false, open:false">
+                <div id="measurementDiv"></div>
+                <span style="font-size:smaller;padding:5px 5px;"></span>
+            </div>
+        </div> -->
+    </div>
+    <script type="text/html" id="zhuhubar" lay-filter="zhuhubar">
+        <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script type="text/html" id="renyuanbar" lay-filter="renyuanbar">
+        <!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script src="pad.js"></script>
+</body>
+
+</html>

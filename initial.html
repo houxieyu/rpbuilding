@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="conf.js"></script>
+		<script type="text/javascript">
+			var dojoConfig = {
+				packages: [{
+					"name": "rplib",
+					"location": location.pathname.replace(/\/[^/]+$/, '/rplib')
+				}]
+			};
+			document.write("<link rel='stylesheet' href='" + libpath + "/dijit/themes/claro/claro.css' />");
+			document.write("<link rel='stylesheet' href='" + libpath + "/esri/css/esri.css' />");
+			document.write("<script src='" + libpath + "/init.js'></scr" + "ipt>");
+		</script>
+		<script src="jquery.min.js"></script>
+		<!--<script src="blob.js"></script>-->
+		<script src="jquery-ajax-blob-arraybuffer.js"></script>
+		<script src="initial.js"></script>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+			<h1 class="mui-title">系统设置</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div id='map' style="display: none;"></div>
+				<p>
+					您好 <span id='account'></span>，您已成功登录。
+					<button type="button" id="btninit" class="mui-btn mui-btn-primary ">系统初始化</button>
+					<button type="button" id="btnclear" class="mui-btn mui-btn-primary ">系统还原</button>
+				</p>
+				<div id='msg'></div>
+			</div>
+		</div>
+	</body>
+
+</html>

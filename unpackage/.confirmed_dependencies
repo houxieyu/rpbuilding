@@ -1,17 +1,32 @@
 {
-	"main.html": {
-		"refer": [
-			"setting.html"
-		],
-		"resources": []
-	},
-	"login.html": {
-		"refer": [
-			"main.html",
-			"reg.html"
-		],
-		"resources": [
-			"images/qq.png"
-		]
-	}
+  "main.html": {
+    "refer": [
+      "setting.html",
+      "init.html",
+      "initial.html",
+      "pad.html"
+    ],
+    "resources": []
+  },
+  "login.html": {
+    "refer": [
+      "main.html",
+      "reg.html"
+    ],
+    "resources": [
+      "images/qq.png"
+    ]
+  },
+  "init.html": {
+    "refer": [
+      "main.html"
+    ],
+    "resources": []
+  },
+  "initial.html": {
+    "refer": [
+      "main.html"
+    ],
+    "resources": []
+  }
 }

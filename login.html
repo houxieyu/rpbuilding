@@ -292,7 +292,9 @@
 					}, false);
 					//
 					window.addEventListener('resize', function() {
-						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+						if(oauthArea){
+							oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
+						}
 					}, false);
 					//
 					var backButtonPress = 0;

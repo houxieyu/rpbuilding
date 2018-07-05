@@ -199,7 +199,10 @@
 					"js/app.js"
 				],
 				"refer": [
-					"setting.html"
+					"setting.html",
+					"init.html",
+					"initial.html",
+					"pad.html"
 				],
 				"priority": 1
 			},
@@ -262,6 +265,20 @@
 					"forget_password.html",
 					"main.html",
 					"reg.html"
+				],
+				"priority": 0
+			},
+			"init.html": {
+				"resources": [],
+				"refer": [
+					"main.html"
+				],
+				"priority": 0
+			},
+			"initial.html": {
+				"resources": [],
+				"refer": [
+					"main.html"
 				],
 				"priority": 0
 			}
