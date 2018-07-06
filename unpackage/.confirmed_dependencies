@@ -1,50 +1,54 @@
 {
-  "main.html": {
-    "refer": [
-      "setting.html",
-      "init.html",
-      "initial.html",
-      "pad.html"
-    ],
-    "resources": []
-  },
-  "login.html": {
-    "refer": [
-      "main.html",
-      "reg.html"
-    ],
-    "resources": [
-      "images/qq.png"
-    ]
-  },
-  "init.html": {
-    "refer": [
-      "main.html"
-    ],
-    "resources": []
-  },
-  "initial.html": {
-    "refer": [
-      "main.html"
-    ],
-    "resources": []
-  },
-  "pad.html": {
-    "resources": [
-      "layui/layui.js",
-      "layui/lay/modules/table.js",
-      "main.html"
-    ],
-    "refer": [
-      "main.html"
-    ]
-  },
-  "setting.html": {
-    "resources": [
-      "libs/easymob-webim-sdk/easemob.im-1.0.5.js",
-      "libs/easymob-webim-sdk/json2.js",
-      "libs/easymob-webim-sdk/jquery-1.11.1.js",
-      "libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
-    ]
-  }
+	"main.html": {
+		"refer": [
+			"setting.html",
+			"init.html",
+			"initial.html",
+			"pad.html"
+		],
+		"resources": []
+	},
+	"login.html": {
+		"refer": [
+			"main.html",
+			"reg.html"
+		],
+		"resources": [
+			"images/qq.png"
+		]
+	},
+	"init.html": {
+		"refer": [
+			"main.html"
+		],
+		"resources": []
+	},
+	"initial.html": {
+		"refer": [
+			"main.html"
+		],
+		"resources": []
+	},
+	"pad.html": {
+		"resources": [
+			"layui/layui.js",
+			"layui/lay/modules/table.js",
+			"main.html",
+			"images/公用.png",
+			"images/建筑.png",
+			"images/商业.png",
+			"images/住宅.png"
+		],
+		"refer": [
+			"main.html"
+		]
+	},
+	"setting.html": {
+		"resources": [
+			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+			"libs/easymob-webim-sdk/json2.js",
+			"libs/easymob-webim-sdk/jquery-1.11.1.js",
+			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+		]
+	}
 }

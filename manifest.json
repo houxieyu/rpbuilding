@@ -286,7 +286,11 @@
 				"resources": [
 					"layui/layui.js",
 					"layui/lay/modules/table.js",
-					"main.html"
+					"main.html",
+					"images/公用.png",
+					"images/建筑.png",
+					"images/商业.png",
+					"images/住宅.png"
 				],
 				"refer": [],
 				"priority": 0
