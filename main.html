@@ -34,10 +34,10 @@
 				<div id='map' style="display: none;"></div>
 				<p>
 					您好 <span id='account'></span>，您已成功登录。
-					<a href="pad.html" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-success ">建筑物标绘</button></a>
+					<a href="pad.html" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-success ">建筑物采集</button></a>
 					<button type="button" class="mui-btn mui-btn-warning ">数据汇总</button>
-					<button type="button" class="mui-btn mui-btn-danger">数据上报</button>
-					<a href="initial.html" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-primary ">系统设置</button></a>
+					<a href="pad0.html" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-danger">建筑物采集（在线）</button></a>
+					<a href="tiledown.htm" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-danger">瓦片地图</button></a>					<a href="initial.html" style="width:100%;color: white;"><button type="button" class="mui-btn mui-btn-primary ">系统设置</button></a>
 					<button type="button" class="mui-btn mui-btn-royal ">退出</button>
 				</p>
 				<!--<button  class="mui-btn mui-btn-block mui-btn-primary">设置</button>-->
@@ -50,6 +50,7 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/app.js"></script>
 		<script>
+			
 			//mui部分
 			(function($, doc) {
 				$.init();
@@ -57,8 +58,9 @@
 				var account = doc.getElementById('account');
 				//
 				window.addEventListener('show', function() {
-					var state = app.getState();
-					account.innerText = state.account;
+				var state = app.getState();
+				//					console.log(state.account)
+				account.innerText = state.account;
 				}, false);
 
 				$.plusReady(function() {

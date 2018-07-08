@@ -1,0 +1,326 @@
+<!--<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		
+
+	</head>-->
+
+	<!--<body>-->
+		<!--<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>-->
+		<!--<script type="text/javascript">
+			mui.init()
+		</script>-->
+		<!--<link rel="stylesheet" href="../layui/css/layui.css">-->
+		<!--<script src="layui/layui.js"></script>-->
+		<!--<script src="../jquery.min.js"></script>-->
+		<!--<script src="../jquery.serializejson.min.js"></script>-->
+		
+
+		<div id='buildedit'>
+			<form id="buildform" class="layui-form mui-input-group" lay-filter="buildform" style="padding-left: 10px;padding-right: 10px;">
+				<div class="mui-input-row">
+					<label class="layui-form-label">普查区代码</label>
+
+					<input type="text" name="pcqcode" readonly class="">
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B1.建筑物编码</label>
+
+					<input type="text" name="B1" autocomplete="off" class="">
+					<input type="hidden" name="id" readonly autocomplete="off" class="">
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B2.详细地址</label>
+
+					<input type="text" name="B2" autocomplete="off" class="">
+
+				</div>
+
+				<div class="mui-input-row">
+					<label class="layui-form-label">B3.建筑层数</label>
+
+					<select id='B3'>
+						<option value='1'>平房</option>
+						<option value='2'>2-3层楼房</option>
+						<option value='3'>4-6层楼房</option>
+						<option value='4'>7-9层楼房</option>
+						<option value='5'>10-29层楼房</option>
+						<option value='6'>30层以上楼房</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B4.承重类型</label>
+
+					<select id='B4'>
+						<option value='1'>钢及钢筋混凝土结构</option>
+						<option value='2'>混合结构</option>
+						<option value='3'>砖木结构</option>
+						<option value='4'>装配式建筑</option>
+						<option value='5'>其他结构</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B5.建成年代</label>
+
+					<select id='B5'>
+						<option value='1'>1949年以前</option>
+						<option value='2'>1949-1959年</option>
+						<option value='3'>1960-1969年</option>
+						<option value='4'>1970-1979年</option>
+						<option value='5'>1980-1989年</option>
+						<option value='6'>1990-1999年</option>
+						<option value='7'>2000-2009年</option>
+						<option value='8'>2010-2018年</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B6.管理方式</label>
+
+					<select id='B6'>
+						<option value='1'>委托物业服务企业管理</option>
+						<option value='2'>其他管理人管理</option>
+						<option value='3'>业主自行管理</option>
+						<option value='4'>社区居委会代管</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B7.电梯数量及年限</label>
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">使用5年以内</label>
+
+					<input type="number" name="B7_1" autocomplete="off" class="">
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">使用5-15年</label>
+
+					<input type="number" name="B7_2" autocomplete="off" class="">
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">使用16-25年</label>
+<input type="number" name="B7_3" autocomplete="off" class="">
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">使用25年以上</label>
+
+					<input type="number" name="B7_4" autocomplete="off" class="">
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B8.是否有管道自来水</label>
+
+					<select name='B8'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B9.是否有二次供水</label>
+
+					<select name='B9'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B10.是否有管道燃气</label>
+
+					<select name='B10'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B11.供暖方式</label>
+
+					<select name='B11'>
+						<option value='1'>集中供暖</option>
+						<option value='2'>分户供暖</option>
+						<option value='3'>无</option>
+					</select>
+
+				</div>
+				<div class="mui-input-row">
+					<label class="layui-form-label">B12.是否接入宽带</label>
+
+					<select name='B12'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
+				</div>
+
+				<div class="mui-input-row">
+					<label class="layui-form-label">B13.生活污水排放方式</label>
+
+					<select name='B13'>
+						<option value='1'>排入城镇污水管网</option>
+						<option value='2'>自然排放</option>
+						<option value='3'>排入户用处理设施</option>
+						<option value='4'>排入村庄集中处理设施</option>
+					</select>
+
+				</div>
+
+				<div class="mui-input-row">
+					<label class="layui-form-label">B14.厕所污水排放方式</label>
+
+					<select name='B14'>
+						<option value='1'>排入污水处理设施</option>
+						<option value='2'>自然排放</option>
+						<option value='3'>排入化粪池处理后作为农业肥料</option>
+						<option value='4'>排入统一收集处理装置</option>
+					</select>
+
+				</div>
+				
+				<div class="mui-input-row">
+					<input type="hidden" id="isnew" name="isnew">
+					<button id='save'>保存</button>
+					<button id='close'>关闭</button>
+					<button id='Zhufanglist'>住户信息</button>
+					</div>
+			</form>
+
+		</div>
+
+		<script>
+			$('#save').click(function() {
+				commitBuild('保存成功', $('#isnew').val()=='true');
+				$('#isnew').val('false');
+				return false;
+			});
+			$('#close').click(function() {
+				layui.layer.close(layui.layer.index);				
+			});
+			$('#Zhufanglist').click(function() {
+				if($('#isnew').val()!='false'){
+					layer.msg('保存后才能进入住户信息');
+				}
+				else{
+					var formdata = $('#buildform').serializeJSON();
+					
+					openZhufanglist({
+						buildcode:formdata.id,
+						buildaddr:formdata.B2
+					});
+				}
+					return false;
+			});
+					//打开住户信息页面
+		function openZhufanglist(initdata){//, yesfunc) {
+			openDialog('layuimodule/zhufanglist_lx.html', 'buildinfo', '住房列表',initdata);
+		}
+					//提交建筑数据
+		function commitBuild(msg, isnew) {
+			//保存建筑物信息
+			var formdata = $('#buildform').serializeJSON();
+			console.log(JSON.stringify(formdata));
+			formdata.id = formdata.pcqcode + formdata.B1;
+			console.log(JSON.stringify(formdata));
+			commitDataLocal("tablebuilding", msg, formdata, null, 'id', selft.attributes.bdcode, isnew);
+			//保存建筑物图层属性
+			selft.attributes.bdcode = formdata.id;
+			var gps = [];
+			console.log(JSON.stringify(selft.attributes))
+			console.log(JSON.stringify(map.graphics.graphics.length))
+			map.graphics.graphics.forEach(function(item) {
+				gps.push({
+					geometry: item.geometry,
+					attributes: item.attributes
+				});
+			});
+			plus.storage.setItem("areabuilding", JSON.stringify(gps));
+		}
+
+//			var isnew = false;
+//			if(window.plus) {
+//				plusReady();
+//			} else {
+//				document.addEventListener('plusready', plusReady, false);
+//			}
+//
+//			function plusReady() {
+//				var w = plus.webview.currentWebview();
+//				//查询建筑物信息
+//				tablebuilding = JSON.parse(plus.storage.getItem("tablebuilding"));
+//				var buildinfo;
+//				if(tablebuilding) {
+//					buildinfo = tablebuilding.find(function(item) {
+//						return item.id == w.selft.attributes.bdcode;
+//					});
+//				}
+//
+//				if(buildinfo === undefined) {
+//					isnew = true;
+//					buildinfo = {
+//						"pcqcode": areacode,
+//						"B1": '001',
+//						"B2": '',
+//						"B3": 1,
+//						"B4": 1,
+//						"B5": 1,
+//						"B6": 1,
+//						"B7_1": 0,
+//						"B7_2": 0,
+//						"B7_3": 0,
+//						"B7_4": 0,
+//						"B8": 1,
+//						"B9": 1,
+//						"B10": 1,
+//						"B11": 1,
+//						"B12": 1,
+//						"B13": 1,
+//						"B14": 1
+//					};
+//
+//				}
+//				layui.use(['form'], function() {
+//					try {
+//						layui.form.val('buildform', buildinfo);
+//					} catch(e) {}
+//					layui.form.render();
+//				});
+//			}
+//
+
+//			//提交建筑数据
+//			function commitBuild(msg, isnew) {
+//				//保存建筑物信息
+//				var formdata = $('#buildform').serializeJSON();
+//				console.log(JSON.stringify(formdata));
+//				formdata.id = formdata.pcqcode + formdata.B1;
+//				console.log(JSON.stringify(formdata));
+//				commitDataLocal("tablebuilding", msg, formdata, null, 'id', selft.attributes.bdcode, isnew);
+//				//保存建筑物图层属性
+//				w.selft.attributes.bdcode = formdata.id;
+//				var gps = [];
+//				w.map.graphics.graphics.forEach(function(item) {
+//					gps.push({
+//						geometry: item.geometry,
+//						attributes: item.attributes
+//					});
+//				});
+//				plus.storage.setItem("areabuilding", JSON.stringify(gps));
+//			}
+		</script>
+
+	<!--</body>-->
+
+<!--</html>-->

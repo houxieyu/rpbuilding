@@ -1,0 +1,104 @@
+<div id='huedit'>
+	<style>
+		/*.layui-form-label {
+			width: 130px;
+		}
+		
+		.inlineinput {
+			width: 80px !important;
+		}
+		
+		.layui-inline {
+			margin-right: 0px !important;
+		}
+		
+		.layui-form-label {
+			padding-left: 0px !important;
+		}*/
+	</style>
+	<form id="huform" class="layui-form" lay-filter="huform" style="padding-left: 10px;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">建筑物编码</label>
+			<div class="layui-input-block">
+				<input type="text" name="bdcode" readonly autocomplete="off" class="layui-input">
+				<input type="hidden" name="id" readonly autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">H2.户别</label>
+			<div class="layui-input-block">
+				<input type="radio" name="H2" value="1" checked title="1.家庭户">
+				<input type="radio" name="H2" value="2" title="2.集体户">
+			</div>
+		</div>
+		<div class="layui-form-item">
+
+			<label class="layui-form-label">H1.户编号</label>
+			<div class="layui-input-block">
+				<input type="text" name="H1" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">房屋号</label>
+			<div class="layui-input-block">
+				<input type="text" name="fangwuhao" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+
+			<label class="layui-form-label">H3.应登记人数_居住</label>
+			<div class="layui-input-block">
+				<input type="number" name="H3_1" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">H3.应登记人数_未住</label>
+			<div class="layui-input-block">
+				<input type="number" name="H3_2" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+
+			<label class="layui-form-label">H4.出生人口-男</label>
+			<div class="layui-input-block">
+				<input type="number" name="H4_1" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">H4.出生人口-女</label>
+			<div class="layui-input-block">
+				<input type="number" name="H4_2" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">H4.死亡人口-男</label>
+			<div class="layui-input-block">
+				<input type="number" name="H4_3" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">H4.死亡人口-女</label>
+			<div class="layui-input-block">
+				<input type="number" name="H4_4" autocomplete="off" class="layui-input">
+			</div>
+
+		</div>
+		<div class="layui-form-item">
+
+			<label class="layui-form-label">H5.住房建筑面积</label>
+			<div class="layui-input-block">
+				<input type="number" name="H5" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">H6.住房间数</label>
+			<div class="layui-input-block">
+				<input type="number" name="H6" autocomplete="off" class="layui-input">
+			</div>
+
+		</div>
+	</form>
+
+</div>

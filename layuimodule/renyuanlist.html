@@ -1,0 +1,147 @@
+<div id='renyuanlist'>
+	<div class="layui-inline" style="padding-left: 10px;">
+		户编码:
+		<span id="labelzhuhuid"></span>
+	</div>
+	<button id="addrenyuan" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe654;</i>添加人员
+            </button>
+	<table id="tablerenyuan" lay-filter="tablerenyuan"></table>
+</div>
+<script type="text/html" id="renyuanbar" lay-filter="renyuanbar">
+	<!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+	//新增人员
+	$('#addrenyuan').click(function() {
+		layui.use(['layer', 'table'], function() {
+			openRenyuanDialog({
+				"R0": '01',
+				"R1": '',
+				"R2": 0,
+				"R3": 1,
+				"R4": '',
+				"R5": '汉族',
+				"R6": 1,
+				"R7": 1,
+				"R8": 1,
+				"R9": 1,
+				"R10": 1,
+				"R11": 1,
+				"R12": 1,
+				"huid": $('#labelzhuhuid').text(),
+				"sfzh": ''
+			}, addRenyuan);
+			// $.get('zhuhu.htm', {}, function (str) {
+			// layui.layer.full(idx);
+			// });
+		});
+	});
+
+	//渲染人员列表
+	function loadRenyuanTable() {
+		var cols = [
+			[{
+					field: 'R1',
+					title: '姓名'
+				},
+				{
+					field: 'R2',
+					title: '关系'
+				}, {
+					field: 'R3',
+					title: '性别'
+				}, {
+					fixed: 'right',
+					width: 150,
+					align: 'center',
+					toolbar: '#renyuanbar'
+				} //这里的toolbar值是模板元素的选择器
+			]
+		];
+		loadTable("renyuan/", {
+			zhuhuid: $('#labelzhuhuid').text()
+		}, '#tablerenyuan', cols);
+	}
+
+	//人员列表工具按钮
+	layui.use(['table'], function() {
+		layui.table.on('tool(tablerenyuan)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			if(obj.event === 'detail') { //查看
+				//do somehing
+			} else if(obj.event === 'del') { //删除
+				layer.confirm('真的删除么？', function(index) {
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					layer.close(index);
+					//向服务端发送删除指令
+				});
+			} else if(obj.event === 'edit') { //编辑
+				//do something
+				$.ajax({
+					//几个参数需要注意一下
+					type: "GET", //方法类型
+					dataType: "json", //预期服务器返回的数据类型
+					url: serveraddr + "renyuan/edit/" + obj.data.id, //url
+					success: function(result) {
+						openRenyuanDialog(result, updateRenyuan);
+					},
+					error: function(p1, p2) {
+						layui.layer.msg(p1.responseText);
+					}
+				});
+				//同步更新缓存对应的值
+				//   obj.update({
+				//     username: '123'
+				//     ,title: 'xxx'
+				//   });
+			}
+		});
+	});
+
+	//人员编辑对话框
+	function openRenyuanDialog(initdata, yesfunc) {
+		$.get('layuimodule/renyuanedit.html', {}, function(str) {
+			var idx = layui.layer.open({
+				type: 1,
+				shade: 0,
+				title: '人员信息',
+				area: '650px',
+				offset: 'auto',
+				content: str,
+				success: function() {
+					layui.use('form', function() {
+						var form = layui.form;
+						try {
+							form.val("renyuanform", initdata);
+						} catch(e) {
+							console.log(e.message)
+						}
+						form.render();
+					});
+				},
+				btn: ['保存', '关闭'],
+				yes: yesfunc,
+				btn2: function() { //关闭按钮
+				}
+			});
+			layer.full(idx);
+		});
+	}
+	//提交住户数据
+	function commitRenyuan(method, msg) {
+		commitData("renyuan/" + method, msg, '#renyuanform', loadRenyuanTable);
+	}
+	//保存新增人员数据
+	function addRenyuan() {
+		commitRenyuan("save", '添加成功');
+	}
+	//更新人员数据
+	function updateRenyuan() {
+		commitRenyuan("update", '更新成功');
+	}
+
+	//渲染人员列表
+	loadRenyuanTable();
+</script>

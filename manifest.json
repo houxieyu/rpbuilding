@@ -202,7 +202,9 @@
 					"setting.html",
 					"init.html",
 					"initial.html",
-					"pad.html"
+					"pad.html",
+					"pad0.html",
+					"tiledown.htm"
 				],
 				"priority": 1
 			},
@@ -290,9 +292,32 @@
 					"images/公用.png",
 					"images/建筑.png",
 					"images/商业.png",
+					"images/住宅.png",
+					"layuimodule/buildedit_lx.html"
+				],
+				"refer": [
+					"layuimodule/buildedit_lx_mui.html",
+					"pad.html"
+				],
+				"priority": 0
+			},
+			"pad0.html": {
+				"resources": [
+					"images/公用.png",
+					"images/建筑.png",
+					"images/商业.png",
 					"images/住宅.png"
 				],
-				"refer": [],
+				"refer": [
+					"main.html"
+				],
+				"priority": 0
+			},
+			"tiledown.htm": {
+				"resources": [],
+				"refer": [
+					"main.html"
+				],
 				"priority": 0
 			}
 		},

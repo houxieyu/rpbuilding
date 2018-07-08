@@ -4,7 +4,9 @@
 			"setting.html",
 			"init.html",
 			"initial.html",
-			"pad.html"
+			"pad.html",
+			"pad0.html",
+			"tiledown.htm"
 		],
 		"resources": []
 	},
@@ -14,7 +16,10 @@
 			"reg.html"
 		],
 		"resources": [
-			"images/qq.png"
+			"images/qq.png",
+			"js/app.js",
+			"js/mui.min.js",
+			"js/mui.enterfocus.js"
 		]
 	},
 	"init.html": {
@@ -34,6 +39,38 @@
 			"layui/layui.js",
 			"layui/lay/modules/table.js",
 			"main.html",
+			"images/l(.png",
+			"images/�Q.png",
+			"images/F\u001a.png",
+			"images/O�.png",
+			"images/l(.png",
+			"images/�Q.png",
+			"images/F\u001a.png",
+			"images/O�.png",
+			"layuimodule/buildedit_lx.html"
+		],
+		"refer": [
+			"main.html",
+			"layuimodule/buildedit_lx.html",
+			"layuimodule/buildedit_lx_mui.html",
+			"pad.html"
+		]
+	},
+	"setting.html": {
+		"resources": [
+			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+			"libs/easymob-webim-sdk/json2.js",
+			"libs/easymob-webim-sdk/jquery-1.11.1.js",
+			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+		],
+		"refer": []
+	},
+	"pad0.html": {
+		"resources": [
+			"images/l(.png",
+			"images/�Q.png",
+			"images/F\u001a.png",
+			"images/O�.png",
 			"images/公用.png",
 			"images/建筑.png",
 			"images/商业.png",
@@ -43,12 +80,9 @@
 			"main.html"
 		]
 	},
-	"setting.html": {
-		"resources": [
-			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
-			"libs/easymob-webim-sdk/json2.js",
-			"libs/easymob-webim-sdk/jquery-1.11.1.js",
-			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js"
+	"tiledown.htm": {
+		"refer": [
+			"main.html"
 		]
 	}
 }

@@ -1,0 +1,121 @@
+<div id='zhufanglist'>
+	<div style="padding-left: 10px;padding-right: 10px;">
+		<form id="buildinfo" class="layui-form mui-input-group" lay-filter="buildinfo">
+			<div class="mui-input-row">
+				<label class="layui-form-label">建筑物编码</label>
+				<input type="text" id="buildcode" name="buildcode" readonly class="">
+			</div>
+			<div class="mui-input-row">
+				<label class="layui-form-label">建筑物地址</label>
+				<input type="text" name="buildaddr" readonly class=""> 
+			</div>
+			<button id="addzhufang" class="mui-btn mui-btn-primary">
+                		添加住房
+            </button>
+
+		</form>
+		<table id="tablezhufang" lay-filter="tablezhufang"></table>
+	</div>
+</div>
+
+<script type="text/html" id="zhufangbar" lay-filter="zhufangbar">
+	<!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+	//新增住户
+	$('#addzhufang').click(function() {
+		var initdata = {
+			"buildcode": $('#buildcode').val(),
+			"F1": '001',
+			"F2": '',
+			"F3": 1,
+			"F4": 0,
+			"F5": 0,
+			"F6": 1,
+			isnew:true
+		};
+		openDialog('layuimodule/zhufangedit_lx.html', 'zhufangform', '住房信息', initdata);
+		return false;
+	});
+
+	//渲染住户列表
+	function loadzhufangTable() {
+		var cols = [
+			[{
+					field: 'F1',
+					title: '住房编号'
+				},
+				{
+					field: 'F2',
+					title: '住房地址'
+				}, {
+					field: 'F3',
+					title: '住房性质'
+				}, {
+					field: 'F4',
+					title: '建筑面积'
+				}, {
+					field: 'F5',
+					title: '住房间数'
+				}, {
+					field: 'F6',
+					title: '是否成套'
+				}, {
+					fixed: 'right',
+					width: 150,
+					align: 'center',
+					toolbar: '#zhufangbar'
+				} //这里的toolbar值是模板元素的选择器
+			]
+		];
+		loadTableLocal("tablezhufang", {
+			key: 'buildcode',
+			value: $('#buildcode').val()
+		}, '#tablezhufang', cols);
+	}
+
+	//住户列表编辑删除工具列按钮
+	layui.use(['table'], function() {
+		layui.table.on('tool(tablezhufang)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			if(obj.event === 'detail') { //查看
+				//do somehing
+			} else if(obj.event === 'del') { //删除
+				layer.confirm('真的删除么？', function(index) {
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					layer.close(index);
+					//向服务端发送删除指令
+				});
+			} else if(obj.event === 'edit') { //编辑
+				//do something
+				$.ajax({
+					//几个参数需要注意一下
+					type: "GET", //方法类型
+					dataType: "json", //预期服务器返回的数据类型
+					url: serveraddr + "zhufang/edit/" + obj.data.id, //url
+					success: function(result) {
+						console.log(result);
+						openzhufangDialog(result, updatezhufang);
+					},
+					error: function(p1, p2) {
+						layui.layer.msg(p1.responseText);
+					}
+				});
+				//同步更新缓存对应的值
+				//   obj.update({
+				//     username: '123'
+				//     ,title: 'xxx'
+				//   });
+			}
+		});
+	});
+
+	//住户编辑对话框
+	function openzhufangDialog(initdata, yesfunc) {
+
+	}
+
+	//渲染住户列表
+	loadzhufangTable();
+</script>

@@ -1,0 +1,181 @@
+<div id='zhuhulist'>
+	<div style="padding-left: 10px;padding-right: 10px;">
+		<div class="layui-inline">
+			建筑物编码：
+			<span id="labeldbcode"></span>
+		</div>
+		<button id="addhu" class="layui-btn layui-btn-sm">
+                <i class="layui-icon">&#xe654;</i>添加住户
+            </button>
+		<div>建筑物名称：<span id="labeldbname"></span></div>
+		<div>入住户数：<span id="labeldbrzhs"></span></div>
+		<table id="tablehu" lay-filter="tablehu"></table>
+	</div>
+</div>
+
+<script type="text/html" id="zhuhubar" lay-filter="zhuhubar">
+	<!-- <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a> -->
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+	//新增住户
+	$('#addhu').click(function() {
+//		console.log('addhu')
+		layui.use(['layer', 'table'], function() {
+			openZhuhuDialog({
+				"fangwuhao": '',
+				"H1": '001',
+				"H2": 1,
+				"H3_1": 0,
+				"H3_2": 0,
+				"H4_1": 0,
+				"H4_2": 0,
+				"H4_3": 0,
+				"H4_4": 0,
+				"H5": 0,
+				"H6": 0,
+				"bdcode": selft.attributes.BuildCode
+			}, addZhuhu);
+			// $.get('zhuhu.htm', {}, function (str) {
+			// layui.layer.full(idx);
+			// });
+		});
+	});
+
+	//渲染住户列表
+	function loadZhuhuTable() {
+		var cols = [
+			[{
+					field: 'fangwuhao',
+					title: '房号'
+				},
+				{
+					field: 'H1',
+					title: '户编码'
+				}, {
+					field: 'H2',
+					title: '户类别'
+				}, {
+					field: 'H3_1',
+					title: '应登记人数'
+				}, {
+					fixed: 'right',
+					width: 150,
+					align: 'center',
+					toolbar: '#zhuhubar'
+				} //这里的toolbar值是模板元素的选择器
+			]
+		];
+		if(selft) {
+			loadTable("zhuhu/", {
+				bdcode: selft.attributes.BuildCode
+			}, '#tablehu', cols);
+		}
+	}
+
+	//住户列表编辑删除工具列按钮
+	layui.use(['table'], function() {
+		layui.table.on('tool(tablehu)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+			if(obj.event === 'detail') { //查看
+				//do somehing
+			} else if(obj.event === 'del') { //删除
+				layer.confirm('真的删除么？', function(index) {
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					layer.close(index);
+					//向服务端发送删除指令
+				});
+			} else if(obj.event === 'edit') { //编辑
+				//do something
+				$.ajax({
+					//几个参数需要注意一下
+					type: "GET", //方法类型
+					dataType: "json", //预期服务器返回的数据类型
+					url: serveraddr + "zhuhu/edit/" + obj.data.id, //url
+					success: function(result) {
+						console.log(result);
+						openZhuhuDialog(result, updateZhuhu);
+					},
+					error: function(p1, p2) {
+						layui.layer.msg(p1.responseText);
+					}
+				});
+				//同步更新缓存对应的值
+				//   obj.update({
+				//     username: '123'
+				//     ,title: 'xxx'
+				//   });
+			}
+		});
+	});
+
+	//住户编辑对话框
+	function openZhuhuDialog(initdata, yesfunc) {
+		$.get('layuimodule/huedit.html', {}, function(str) {
+			var idx = layui.layer.open({
+				type: 1,
+				shade: 0,
+				title: '住户信息',
+				area: '520px',
+				offset: 'auto',
+				content: str,
+				success: function() {
+					layui.use('form', function() {
+						var form = layui.form;
+						try {
+							form.val("huform", initdata);
+						} catch(e) {
+							console.log(e.message)
+						}
+						form.render();
+					});
+					mui.init();
+
+				},
+				btn: ['保存', '关闭', '人员信息'],
+				yes: yesfunc,
+				btn2: function() { //关闭按钮
+				},
+				btn3: function() {
+					$.get('layuimodule/renyuanlist.html', {}, function(str) {
+						layui.use(['layer', 'table'], function() {
+							var layer = layui.layer;
+							layer.full(layer.open({
+								type: 1,
+								area: '500px',
+								shade: 0,
+								title: '人员列表',
+								content: str //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+							}));
+							try {
+								$('#labelzhuhuid').text(initdata.id);
+							} catch(e) {
+								console.log(e.message)
+							}
+
+						});
+						return false;
+					});
+					return false;
+				}
+			});
+			layer.full(idx);
+		});
+	}
+
+	//提交住户数据
+	function commitZhuhu(method, msg) {
+		commitData("zhuhu/" + method, msg, '#huform', loadZhuhuTable);
+	}
+	//保存新增住户数据
+	function addZhuhu() {
+		commitZhuhu("save", '添加成功');
+	}
+	//更新住户数据
+	function updateZhuhu() {
+		commitZhuhu("update", '更新成功');
+	}
+
+	//渲染住户列表
+	loadZhuhuTable();
+</script>
