@@ -297,7 +297,8 @@
 				],
 				"refer": [
 					"layuimodule/buildedit_lx_mui.html",
-					"pad.html"
+					"pad.html",
+					"layuimodule/buildedit_lx_plus.html"
 				],
 				"priority": 0
 			},

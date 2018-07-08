@@ -323,12 +323,12 @@ require([
 					"B14": 1
 				};
 				buildinfo.isnew = true;
-				openbuilddialog(buildinfo);//, addBuild);
-				//				opoenBuildWindow(buildinfo, true);
+//				openbuilddialog(buildinfo);//, addBuild);
+								opoenBuildWindow(buildinfo, true);
 			} else {
 				buildinfo.isnew = false;
-				openbuilddialog(buildinfo);//, updateBuild);
-				//				opoenBuildWindow(buildinfo, false);
+//				openbuilddialog(buildinfo);//, updateBuild);
+								opoenBuildWindow(buildinfo, false);
 			}
 		});
 

@@ -14,179 +14,184 @@
 		<script type="text/javascript">
 			mui.init()
 		</script>
-		<link rel="stylesheet" href="../layui/css/layui.css">
+		<!--<link rel="stylesheet" href="../layui/css/layui.css">-->
 		<script src="../layui/layui.js"></script>
 
 		<div id='buildedit'>
-			<form id="buildform" class="layui-form" lay-filter="buildform" style="padding-left: 10px;">
-				<div class="layui-form-item">
+			<form id="buildform" class="layui-form mui-input-group" lay-filter="buildform" style="padding-left: 10px;padding-right: 10px;">
+				<div class="mui-input-row">
 					<label class="layui-form-label">普查区代码</label>
-					<div class="layui-input-block">
-						<input type="text" name="pcqcode" readonly class="layui-input">
-					</div>
+
+					<input type="text" name="pcqcode" readonly class="">
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B1.建筑物编码</label>
-					<div class="layui-input-block">
-						<input type="text" name="B1" autocomplete="off" class="layui-input">
-						<input type="hidden" name="id" readonly autocomplete="off" class="layui-input">
-					</div>
+
+					<input type="text" name="B1" autocomplete="off" class="">
+					<input type="hidden" name="id" readonly autocomplete="off" class="">
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B2.详细地址</label>
-					<div class="layui-input-block">
-						<input type="text" name="B2" autocomplete="off" class="layui-input">
-					</div>
+
+					<input type="text" name="B2" autocomplete="off" class="">
+
 				</div>
 
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B3.建筑层数</label>
-					<div class="layui-input-block">
-						<select id='B3'>
-							<option value='1'>平房</option>
-							<option value='2'>2-3层楼房</option>
-							<option value='3'>4-6层楼房</option>
-							<option value='4'>7-9层楼房</option>
-							<option value='5'>10-29层楼房</option>
-							<option value='6'>30层以上楼房</option>
-						</select>
-					</div>
+
+					<select id='B3'>
+						<option value='1'>平房</option>
+						<option value='2'>2-3层楼房</option>
+						<option value='3'>4-6层楼房</option>
+						<option value='4'>7-9层楼房</option>
+						<option value='5'>10-29层楼房</option>
+						<option value='6'>30层以上楼房</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B4.承重类型</label>
-					<div class="layui-input-block">
-						<select id='B4'>
-							<option value='1'>钢及钢筋混凝土结构</option>
-							<option value='2'>混合结构</option>
-							<option value='3'>砖木结构</option>
-							<option value='4'>装配式建筑</option>
-							<option value='5'>其他结构</option>
-						</select>
-					</div>
+
+					<select id='B4'>
+						<option value='1'>钢及钢筋混凝土结构</option>
+						<option value='2'>混合结构</option>
+						<option value='3'>砖木结构</option>
+						<option value='4'>装配式建筑</option>
+						<option value='5'>其他结构</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B5.建成年代</label>
-					<div class="layui-input-block">
-						<select id='B5'>
-							<option value='1'>1949年以前</option>
-							<option value='2'>1949-1959年</option>
-							<option value='3'>1960-1969年</option>
-							<option value='4'>1970-1979年</option>
-							<option value='5'>1980-1989年</option>
-							<option value='6'>1990-1999年</option>
-							<option value='7'>2000-2009年</option>
-							<option value='8'>2010-2018年</option>
-						</select>
-					</div>
+
+					<select id='B5'>
+						<option value='1'>1949年以前</option>
+						<option value='2'>1949-1959年</option>
+						<option value='3'>1960-1969年</option>
+						<option value='4'>1970-1979年</option>
+						<option value='5'>1980-1989年</option>
+						<option value='6'>1990-1999年</option>
+						<option value='7'>2000-2009年</option>
+						<option value='8'>2010-2018年</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B6.管理方式</label>
-					<div class="layui-input-block">
-						<select id='B6'>
-							<option value='1'>委托物业服务企业管理</option>
-							<option value='2'>其他管理人管理</option>
-							<option value='3'>业主自行管理</option>
-							<option value='4'>社区居委会代管</option>
-						</select>
-					</div>
+
+					<select id='B6'>
+						<option value='1'>委托物业服务企业管理</option>
+						<option value='2'>其他管理人管理</option>
+						<option value='3'>业主自行管理</option>
+						<option value='4'>社区居委会代管</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B7.电梯数量及年限</label>
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">使用5年以内</label>
-					<div class="layui-input-block">
-						<input type="number" name="B7_1" autocomplete="off" class="layui-input">
-					</div>
+
+					<input type="number" name="B7_1" autocomplete="off" class="">
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">使用5-15年</label>
-					<div class="layui-input-block">
-						<input type="number" name="B7_2" autocomplete="off" class="layui-input">
-					</div>
+
+					<input type="number" name="B7_2" autocomplete="off" class="">
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">使用16-25年</label>
-					<div class="layui-input-block">
-						<input type="number" name="B7_3" autocomplete="off" class="layui-input">
-					</div>
+<input type="number" name="B7_3" autocomplete="off" class="">
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">使用25年以上</label>
-					<div class="layui-input-block">
-						<input type="number" name="B7_4" autocomplete="off" class="layui-input">
-					</div>
+
+					<input type="number" name="B7_4" autocomplete="off" class="">
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B8.是否有管道自来水</label>
-					<div class="layui-input-block">
-						<select id='B8'>
-							<option value='1'>是</option>
-							<option value='2'>否</option>
-						</select>
-					</div>
+
+					<select name='B8'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B9.是否有二次供水</label>
-					<div class="layui-input-block">
-						<select id='B9'>
-							<option value='1'>是</option>
-							<option value='2'>否</option>
-						</select>
-					</div>
+
+					<select name='B9'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B10.是否有管道燃气</label>
-					<div class="layui-input-block">
-						<select id='B10'>
-							<option value='1'>是</option>
-							<option value='2'>否</option>
-						</select>
-					</div>
+
+					<select name='B10'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B11.供暖方式</label>
-					<div class="layui-input-block">
-						<select id='B11'>
-							<option value='1'>集中供暖</option>
-							<option value='2'>分户供暖</option>
-							<option value='3'>无</option>
-						</select>
-					</div>
+
+					<select name='B11'>
+						<option value='1'>集中供暖</option>
+						<option value='2'>分户供暖</option>
+						<option value='3'>无</option>
+					</select>
+
 				</div>
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B12.是否接入宽带</label>
-					<div class="layui-input-block">
-						<select id='B12'>
-							<option value='1'>是</option>
-							<option value='2'>否</option>
-						</select>
-					</div>
+
+					<select name='B12'>
+						<option value='1'>是</option>
+						<option value='2'>否</option>
+					</select>
+
 				</div>
 
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B13.生活污水排放方式</label>
-					<div class="layui-input-block">
-						<select id='B13'>
-							<option value='1'>排入城镇污水管网</option>
-							<option value='2'>自然排放</option>
-							<option value='3'>排入户用处理设施</option>
-							<option value='4'>排入村庄集中处理设施</option>
-						</select>
-					</div>
+
+					<select name='B13'>
+						<option value='1'>排入城镇污水管网</option>
+						<option value='2'>自然排放</option>
+						<option value='3'>排入户用处理设施</option>
+						<option value='4'>排入村庄集中处理设施</option>
+					</select>
+
 				</div>
 
-				<div class="layui-form-item">
+				<div class="mui-input-row">
 					<label class="layui-form-label">B14.厕所污水排放方式</label>
-					<div class="layui-input-block">
-						<select id='B14'>
-							<option value='1'>排入污水处理设施</option>
-							<option value='2'>自然排放</option>
-							<option value='3'>排入化粪池处理后作为农业肥料</option>
-							<option value='4'>排入统一收集处理装置</option>
-						</select>
-					</div>
+
+					<select name='B14'>
+						<option value='1'>排入污水处理设施</option>
+						<option value='2'>自然排放</option>
+						<option value='3'>排入化粪池处理后作为农业肥料</option>
+						<option value='4'>排入统一收集处理装置</option>
+					</select>
+
 				</div>
+				
+				<div class="mui-input-row">
+					<input type="hidden" id="isnew" name="isnew">
+					<button id='save'>保存</button>
+					<button id='close'>关闭</button>
+					<button id='Zhufanglist'>住户信息</button>
+					</div>
 			</form>
 
 		</div>
